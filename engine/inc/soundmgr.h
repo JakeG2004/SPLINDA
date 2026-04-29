@@ -4,6 +4,9 @@
 / 03/02/2026
 */
 
+#ifndef SOUNDMGR_H
+#define SOUNDMGR_H
+
 #include <maxmod9.h>
 #include "soundbank.h"
 
@@ -40,3 +43,5 @@ class SoundManager
     private:     
         SoundManager();
 };
+
+#endif
