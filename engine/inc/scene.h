@@ -14,9 +14,9 @@ class Scene {
         virtual void Load();
         virtual void Unload();
 
-        virtual int AddObject(Object*);
-        virtual Object* AddObject(std::string);
-        virtual int RemoveObject(Object*);
+        int AddObject(Object*);
+        Object* AddObject(std::string);
+        int RemoveObject(Object*);
 
     protected:
         std::vector<Object*> _objects;
