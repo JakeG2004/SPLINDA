@@ -1,5 +1,6 @@
 #include "dsge.h"
 #include "sprite.h"
+#include "test.h"
 
 int main(void) 
 {
@@ -11,12 +12,17 @@ int main(void)
 
     curScene.AddObject(&newObject);
 
-    Sprite newSprite = Sprite(&oamMain, SpriteSize_64x64, SpriteColorFormat_256Color, 1);
-    newSprite.SetObject(&newObject);
+    // Create the sprites
+    Sprite* testSprite = new Sprite(&oamMain, SpriteSize_64x64, SpriteColorFormat_256Color, 1);
+    testSprite -> loadGfx(testTiles, 0);
+
+    // Create the pallette
+    vramSetBankF(VRAM_F_LCD);
+    dmaCopy(testPal, VRAM_F_EXT_SPR_PALETTE[0], testPalLen);
+    vramSetBankF(VRAM_F_OBJ_EXT_PALETTE);
 
     while(1)
     {
-        Debug::Get().Print(newObject.objectName);
-        newSprite.render(0, 64, 64);
+        testSprite.render(0, 64, 64);
     }
 }

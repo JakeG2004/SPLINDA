@@ -20,20 +20,29 @@ class Sprite : public Attribute {
 
     public:
         Sprite(OamState* objOam, SpriteSize objSize, SpriteColorFormat objFormat, int newNumSprites)
+            : oam(objOam), size(objSize), colorFormat(objFormat), numSprites(newNumSprites) 
         {
-            oam = objOam;
-            size = objSize;
-            colorFormat = objFormat;
-            numSprites = newNumSprites;
             gfx = (u16**)malloc(sizeof(u16*) * numSprites);
-
-            for(int i = 0; i < numSprites; i++)
-            {
+            for(int i = 0; i < numSprites; i++) {
                 gfx[i] = oamAllocateGfx(oam, size, colorFormat);
             }
-            
-            // Automatically grab the next available ID for this specific OAM engine
             spriteID = SpriteManager::CreateUniqueSpriteID(objOam);
+        }
+
+        // New method to load the data from the generated header files
+        void loadGfx(const void* data, int frame) {
+            if (frame >= 0 && frame < numSprites) {
+                // TODO: Make this determine the size of each sprite
+                dmaCopy(data, gfx[frame], 64 * 64);
+            }
+        }
+
+        // Overloaded helper for simpler loading
+        void loadAllFrames(const void* data, int bytesPerFrame) {
+            for(int i = 0; i < numSprites; i++) {
+                u8* offsetData = (u8*)data + (i * bytesPerFrame);
+                dmaCopy(offsetData, gfx[i], bytesPerFrame);
+            }
         }
 
         void render(int frame, int width, int height) 

@@ -74,6 +74,7 @@ export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
 
 export DEPSDIR	:=	$(CURDIR)/$(BUILD)
 
+PNGFILES    :=  $(foreach dir,$(GRAPHICS),$(notdir $(wildcard $(dir)/*.png)))
 CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
 CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
 SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
@@ -162,7 +163,22 @@ soundbank.bin soundbank.h : $(AUDIOFILES)
 # This rule links in binary data with the .bin extension
 #---------------------------------------------------------------------------------
 
-%.bin.o	%_bin.h :	%.bin
+%.bin.o %_bin.h : %.bin
+	@echo $(notdir $<)
+	@$(bin2o)
+
+#---------------------------------------------------------------------------------
+# Rule to process PNG files with grit and compile the resulting source
+#---------------------------------------------------------------------------------
+%.o %.h : %.png %.grit
+	@echo $(notdir $<)
+	@grit $< -ftc -o$*
+	@$(CC) $(CFLAGS) -c $*.c -o $*.o
+
+%.o %.h : %.png
+	@echo $(notdir $<)
+	@grit $< -ftc -o$*
+	@$(CC) $(CFLAGS) -c $*.c -o $*.o
 
 #---------------------------------------------------------------------------------
 
