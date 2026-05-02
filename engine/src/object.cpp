@@ -1,5 +1,6 @@
 #include "object.h"
 #include <string>
+#include <vector>
 
 // Constructor
 Object::Object(std::string objName) {
@@ -9,5 +10,10 @@ Object::Object(std::string objName) {
 
 // Init function
 void Object::Init() {
+    transform = new Transform();
+}
 
+int Object::AddAttribute(Attribute* attr) {
+    _attributes.push_back(attr);
+    return 1;
 }

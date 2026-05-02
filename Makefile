@@ -22,8 +22,8 @@ include $(DEVKITARM)/ds_rules
 
 TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	build
-SOURCES		:=	source engine/src
-INCLUDES	:=	include engine/inc
+SOURCES		:=	source engine/src attributes/src user/src
+INCLUDES	:=	include engine/inc attributes/inc user/inc
 MUSIC       :=  maxmod_data
 GRAPHICS	:= 	graphics
 
