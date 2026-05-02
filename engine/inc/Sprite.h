@@ -1,3 +1,4 @@
+/*
 #ifndef SPRITE_H
 #define SPRITE_H
 
@@ -59,3 +60,4 @@ public:
 };
 
 #endif
+*/

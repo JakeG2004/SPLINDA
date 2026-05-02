@@ -1,11 +1,16 @@
 #include "attribute.h"
+#include "object.h"
 
 // Constructor
 Attribute::Attribute() {
-    Init();
+    _object = nullptr;
 }
 
-// Initializer
-void Attribute::Init() {
+Attribute::Attribute(Object* obj) {
+    SetObject(obj);
+}
 
+// Sets the object
+void Attribute::SetObject(Object* obj) {
+    _object = obj;
 }

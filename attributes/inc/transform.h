@@ -9,6 +9,8 @@ class Transform : public Attribute {
 
         int x;
         int y;
+
+        void SetPosition(int, int);
 };
 
 #endif
