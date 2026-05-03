@@ -36,7 +36,7 @@ class Sprite : public Attribute {
         void loadGfx(const void* data, int frame) {
             if (frame >= 0 && frame < numSprites) {
                 // TODO: Make this determine the size of each sprite
-                dmaCopy(data, gfx[frame], 4096);
+                dmaCopy(data, gfx[frame], 64 * 64);
             }
         }
 
@@ -48,6 +48,11 @@ class Sprite : public Attribute {
             }
         }
 
+        void Update() {
+            render(0, 64, 64);
+        }
+
+    private:
         void render(int frame, int width, int height) 
         {
             int x = _object -> transform -> x;

@@ -18,3 +18,9 @@ int Object::AddAttribute(Attribute* attr) {
     _attributes.push_back(attr);
     return 1;
 }
+
+void Object::Update() {
+    for(unsigned int i = 0; i < _attributes.size(); i++) {
+        _attributes[i] -> Update();
+    }
+}

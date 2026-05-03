@@ -25,7 +25,7 @@ int main(void)
 
     while(1)
     {
-        testSprite -> render(0, 64, 64);
+        newObject.Update();
 
         newObject.transform -> SetPosition(newObject.transform -> x + 1, 0);
         if(newObject.transform -> x >= 256) {

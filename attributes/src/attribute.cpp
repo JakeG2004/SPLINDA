@@ -14,3 +14,7 @@ Attribute::Attribute(Object* obj) {
 void Attribute::SetObject(Object* obj) {
     _object = obj;
 }
+
+void Attribute::Update() {
+    
+}

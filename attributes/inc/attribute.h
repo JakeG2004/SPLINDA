@@ -10,6 +10,8 @@ class Attribute {
         
         void SetObject(Object* obj);
 
+        virtual void Update();
+
     protected:
         Object* _object;
 };

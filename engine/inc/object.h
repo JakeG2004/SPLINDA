@@ -15,6 +15,8 @@ class Object {
         Object(std::string);
         int AddAttribute(Attribute* attr);
 
+        virtual void Update();
+
     protected:
         std::vector<Attribute*> _attributes;
         virtual void Init();
