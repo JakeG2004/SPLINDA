@@ -3,5 +3,6 @@
 
 #include "attribute.h"
 #include "transform.h"
+#include "sprite.h"
 
 #endif
