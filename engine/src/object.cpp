@@ -14,6 +14,7 @@ void Object::Init() {
 }
 
 int Object::AddAttribute(Attribute* attr) {
+    attr -> SetObject(this);
     _attributes.push_back(attr);
     return 1;
 }

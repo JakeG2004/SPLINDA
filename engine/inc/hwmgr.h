@@ -16,6 +16,8 @@ public:
     
     // Optional: Setup method to initialize the singleton
     static void Create();
+
+    static void RenderScreens();
 };
 
 #endif

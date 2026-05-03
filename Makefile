@@ -172,12 +172,12 @@ soundbank.bin soundbank.h : $(AUDIOFILES)
 #---------------------------------------------------------------------------------
 %.o %.h : %.png %.grit
 	@echo $(notdir $<)
-	@grit $< -ftc -o$*
+	@grit $< -gB8 -gt -ftc -gT ff00ff -o$*
 	@$(CC) $(CFLAGS) -c $*.c -o $*.o
 
 %.o %.h : %.png
 	@echo $(notdir $<)
-	@grit $< -ftc -o$*
+	@grit $< -gB8 -gt -ftc -gT ff00ff -o$*
 	@$(CC) $(CFLAGS) -c $*.c -o $*.o
 
 #---------------------------------------------------------------------------------

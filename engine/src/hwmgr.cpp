@@ -44,3 +44,13 @@ void HWManager::InitScreens()
     oamInit(&oamMain, SpriteMapping_1D_32, false);
     oamInit(&oamSub, SpriteMapping_1D_32, false);
 }
+
+void HWManager::RenderScreens()
+{
+    // Wait for screen to finish drawing
+    swiWaitForVBlank();
+
+    // Commit the changes to hardware
+    oamUpdate(&oamMain);
+    oamUpdate(&oamSub);
+}

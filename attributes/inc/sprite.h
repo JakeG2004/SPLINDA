@@ -20,7 +20,10 @@ class Sprite : public Attribute {
 
     public:
         Sprite(OamState* objOam, SpriteSize objSize, SpriteColorFormat objFormat, int newNumSprites)
-            : oam(objOam), size(objSize), colorFormat(objFormat), numSprites(newNumSprites) 
+            : numSprites(newNumSprites), 
+            oam(objOam), 
+            size(objSize), 
+            colorFormat(objFormat) 
         {
             gfx = (u16**)malloc(sizeof(u16*) * numSprites);
             for(int i = 0; i < numSprites; i++) {
@@ -33,7 +36,7 @@ class Sprite : public Attribute {
         void loadGfx(const void* data, int frame) {
             if (frame >= 0 && frame < numSprites) {
                 // TODO: Make this determine the size of each sprite
-                dmaCopy(data, gfx[frame], 64 * 64);
+                dmaCopy(data, gfx[frame], 4096);
             }
         }
 
