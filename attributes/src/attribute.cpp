@@ -16,5 +16,5 @@ void Attribute::SetObject(Object* obj) {
 }
 
 void Attribute::Update() {
-    
+
 }
