@@ -17,31 +17,38 @@ class Sprite : public Attribute {
         SpriteColorFormat colorFormat;
         int spriteID;
         bool isHidden = false;
+        int width = 0;
+        int height = 0;
 
     public:
-        Sprite(OamState* objOam, SpriteSize objSize, SpriteColorFormat objFormat, int newNumSprites)
+        Sprite(OamState* objOam, SpriteSize objSize, SpriteColorFormat objFormat, int sizeX, int sizeY, int newNumSprites, const void* data = nullptr, int frame = 0)
             : numSprites(newNumSprites), 
             oam(objOam), 
             size(objSize), 
             colorFormat(objFormat) 
         {
+            width = sizeX;
+            height = sizeY;
+
             gfx = (u16**)malloc(sizeof(u16*) * numSprites);
             for(int i = 0; i < numSprites; i++) {
                 gfx[i] = oamAllocateGfx(oam, size, colorFormat);
             }
             spriteID = SpriteManager::CreateUniqueSpriteID(objOam);
+
+            loadGfx(data, frame);
         }
 
         // New method to load the data from the generated header files
         void loadGfx(const void* data, int frame) {
             if (frame >= 0 && frame < numSprites) {
                 // TODO: Make this determine the size of each sprite
-                dmaCopy(data, gfx[frame], 64 * 64);
+                dmaCopy(data, gfx[frame], width * height);
             }
         }
 
         void Update() {
-            render(0, 64, 64);
+            render(0, width, height);
         }
 
     private:
@@ -56,9 +63,11 @@ class Sprite : public Attribute {
             // Directly use the pointer we allocated for this specific frame
             u16* framePtr = gfx[frame];
 
+            oamRotateScale(oam, spriteID, _object -> transform -> rotation, _object -> transform -> GetScaleX(), _object -> transform -> GetScaleY());
+
             // Use the internal spriteID instead of passing one in
             oamSet(oam, spriteID, x, y, 0, 0, size, colorFormat, 
-                framePtr, -1, false, isHidden, false, false, false);
+                framePtr, spriteID, true, isHidden, false, false, false);
         }
 };
 
