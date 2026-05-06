@@ -20,12 +20,14 @@ include $(DEVKITARM)/ds_rules
 # the makefile is found
 #---------------------------------------------------------------------------------
 
-TARGET		:=	$(notdir $(CURDIR))
+NAME		:= 	Test
+
 BUILD		:=	build
 SOURCES		:=	source engine/src attributes/src user/src
 INCLUDES	:=	include engine/inc attributes/inc user/inc
 MUSIC       :=  maxmod_data
 GRAPHICS	:= 	graphics
+TARGET      :=  $(NAME)
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -66,7 +68,9 @@ ifneq ($(BUILDDIR), $(CURDIR))
 
 #---------------------------------------------------------------------------------
 
-export OUTPUT	:=	$(CURDIR)/$(TARGET)
+export TARGET
+export NAME
+export OUTPUT	:=	$(NAME)
 
 export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
 					$(foreach dir,$(DATA),$(CURDIR)/$(dir)) \
@@ -120,15 +124,27 @@ export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 
 #---------------------------------------------------------------------------------
 
+#$(BUILD):
+#	@[ -d $@ ] || mkdir -p $@
+#	@$(MAKE) BUILDDIR=`cd $(BUILD) && pwd` --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
+
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
 	@$(MAKE) BUILDDIR=`cd $(BUILD) && pwd` --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
+	@cp $(BUILD)/$(TARGET).nds .
+	@echo "ROM copied to project root."
 
 #---------------------------------------------------------------------------------
 
 clean:
 	@echo clean ...
 	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).nds
+
+show:
+	@echo "Target is: $(TARGET)"
+	@echo "Output is: $(OUTPUT)"
+	@echo "C Files: $(CFILES)"
+	@echo "Object Files: $(OFILES)"
 
 
 #---------------------------------------------------------------------------------

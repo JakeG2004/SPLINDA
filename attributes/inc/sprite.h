@@ -40,14 +40,6 @@ class Sprite : public Attribute {
             }
         }
 
-        // Overloaded helper for simpler loading
-        void loadAllFrames(const void* data, int bytesPerFrame) {
-            for(int i = 0; i < numSprites; i++) {
-                u8* offsetData = (u8*)data + (i * bytesPerFrame);
-                dmaCopy(offsetData, gfx[i], bytesPerFrame);
-            }
-        }
-
         void Update() {
             render(0, 64, 64);
         }
