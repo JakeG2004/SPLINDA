@@ -9,21 +9,21 @@ void Transform::SetPosition(int nX, int nY) {
     y = nY;
 }
 
-void Transform::SetRotationBinaryRadians(int rot)
+void Transform::SetRotation(int rot)
 {
-    rotation = rot;
+    rotation = rot % 32767;
 }
 
 void Transform::SetRotationRadians(float rot)
 {
     float PI = 3.14;
-    SetRotationBinaryRadians((int)(rot * (32767 / (2 * PI))));
+    SetRotation((int)(rot * (32767 / (2 * PI))));
+    
 }
 
 void Transform::SetRotationDegrees(float rot)
 {
-    float PI = 3.14;
-    SetRotationRadians(rot * PI / 180);
+    SetRotation((int)(rot * (32767 / (360))));
 }
 
 void Transform::SetInvScale(float sX, float sY)
@@ -33,6 +33,23 @@ void Transform::SetInvScale(float sX, float sY)
 
     scaleX = scalerX * 255;
     scaleY = scalerY * 255;
+}
+
+// GETTERS
+
+float Transform::GetRotationDegrees()
+{
+    return rotation * (360 / 32767);
+}
+
+float Transform::GetRotationRadians()
+{
+    return rotation * (2 * 3.14 / 32767);
+}
+
+int Transform::GetRotation()
+{
+    return rotation;
 }
 
 int Transform::GetScaleX()

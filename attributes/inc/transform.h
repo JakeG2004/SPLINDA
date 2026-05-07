@@ -20,11 +20,16 @@ class Transform : public Attribute {
 
         // Several options for rotating sprites
         void SetRotationRadians(float);
-        void SetRotationBinaryRadians(int);
+        void SetRotation(int);
         void SetRotationDegrees(float);
 
         // Set inverse scale factor. larger number -> smaller sprite. smaller number -> larger sprite
         void SetInvScale(float, float);
+
+        // Getters for rotations
+        float GetRotationDegrees();
+        float GetRotationRadians();
+        int GetRotation();
 
         // Getters for scales
         int GetScaleX();
