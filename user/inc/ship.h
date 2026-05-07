@@ -1,16 +1,16 @@
 #ifndef SHIP_H
 #define SHIP_H
 
-#include "object.h"
+#include "wrappingObject.h"
 
-class Ship : public Object
+class Ship : public WrappingObject
 {
     public:
-        Ship(std::string);
+        Ship(std::string, int);
         void MoveShip();
         void Update();
 
-    private:
+    protected:
         const float ROT_SPEED = 100;
         const float ROT_DAMPING = 0.9;
         float rotVel = 0;
@@ -18,11 +18,11 @@ class Ship : public Object
         const float MOVE_SPEED = 0.5;
         const float MAX_VEL = 3;
         const float VEL_DAMPING = 0.99;
-        float vel = 0;
+        float velX = 0;
+        float velY = 0;
 
         void Rotate();
         void Move();
-        void Wrap();
 };
 
 #endif

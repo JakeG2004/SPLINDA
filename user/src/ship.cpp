@@ -4,19 +4,19 @@
 
 #include <math.h>
 
-Ship::Ship(std::string name) : Object(name)
+Ship::Ship(std::string name, int spriteHalfSize) : WrappingObject(name, spriteHalfSize)
 {
     // Set up the transform with generic object init
     Init();
 
     // Set up the sprite
-    Sprite* shipSprite = new Sprite(&oamMain, SpriteSize_64x64, SpriteColorFormat_256Color, 64, 64, 1, shipSpriteTiles);
+    Sprite* shipSprite = new Sprite(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color, 32, 32, 1, shipSpriteTiles);
     this -> AddAttribute(shipSprite);
 }
 
 void Ship::Update()
 {
-    Object::Update();
+    WrappingObject::Update();
     MoveShip();
 }
 
@@ -24,67 +24,73 @@ void Ship::MoveShip()
 {
     Rotate();
     Move();
-    Wrap();
-}
-
-void Ship::Wrap()
-{
-    int xpos = transform -> x;
-    if(xpos >= 220)
-    {
-        transform -> x = -63;
-    }
-    else if(xpos <= -64)
-    {
-        transform -> x = 221;
-    }
-
-    int ypos = transform -> y;
-    if(ypos <= -64)
-    {
-        transform -> y = 191;
-    }
-
-    if(ypos >= 192)
-    {
-        transform -> y = -63;
-    }
 }
 
 void Ship::Move()
 {
+    float rotationRadians = transform -> GetRotationRadians();
+    
     // Get user input
-    if(keysHeld() & KEY_UP)
+    if((keysHeld() & KEY_UP))
     {
-        vel += MOVE_SPEED;
+        // Decompose the forces
+        float xForce = cos(rotationRadians) * MOVE_SPEED;
+        float yForce = sin(rotationRadians) * MOVE_SPEED;
+
+        // Add the forces
+        velX += xForce;
+        velY += yForce;
     }
 
-    if(keysHeld() & KEY_DOWN)
+    if (keysHeld() & KEY_DOWN)
     {
-        vel -= MOVE_SPEED;
+        // Decompose the forces
+        float xForce = cos(rotationRadians) * -MOVE_SPEED;
+        float yForce = sin(rotationRadians) * -MOVE_SPEED;
+
+        // Add the forces
+        velX += xForce;
+        velY += yForce;
     }
 
     // Limit velocity
-    if(vel > MAX_VEL)
+    if(velX > MAX_VEL)
     {
-        vel = MAX_VEL;
+        velX = MAX_VEL;
     }
 
-    if(vel < -MAX_VEL)
+    if(velX < -MAX_VEL)
     {
-        vel = -MAX_VEL;
+        velX = -MAX_VEL;
     }
 
-    // Damping
-    vel = vel * VEL_DAMPING;
-    if(abs(vel) < 0.1)
+    if(velY > MAX_VEL)
     {
-        vel = 0;
+        velY = MAX_VEL;
     }
 
-    // Calculate and set the new positions
-    int newX = transform -> x + (int)(cos(transform -> GetRotationRadians()) * vel);
-    int newY = transform -> y - (int)(sin(transform -> GetRotationRadians()) * vel);
+    if(velY < -MAX_VEL)
+    {
+        velY = -MAX_VEL;
+    }
+
+    // Damping X
+    velX = velX * VEL_DAMPING;
+    if(abs(velX) < 0.1)
+    {
+        velX = 0;
+    }
+
+    // Damping Y
+    velY = velY * VEL_DAMPING;
+    if(abs(velY) < 0.1)
+    {
+        velY = 0;
+    }
+
+    // Calculate and set positions
+    int newX = transform -> x + (int)(velX);
+    int newY = transform -> y - (int)(velY);
 
     transform -> SetPosition(newX, newY);
 }
