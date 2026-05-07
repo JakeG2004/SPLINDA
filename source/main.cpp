@@ -1,5 +1,5 @@
 #include "dsge.h"
-#include "ds.h"
+#include "shipSprite.h"
 #include "ship.h"
 
 #include <math.h>
@@ -14,8 +14,8 @@ int main(void)
     Ship newShip = Ship("Playership");
 
     // Create the palette
-    dmaCopy(dsPal, SPRITE_PALETTE, dsPalLen);
-    dmaCopy(dsPal, SPRITE_PALETTE_SUB, dsPalLen);
+    dmaCopy(shipSpritePal, SPRITE_PALETTE, shipSpritePalLen);
+    dmaCopy(shipSpritePal, SPRITE_PALETTE_SUB, shipSpritePalLen);
 
     while(1)
     {

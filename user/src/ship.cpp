@@ -1,5 +1,5 @@
 #include "ship.h"
-#include "ds.h"
+#include "shipSprite.h"
 #include "attributes.h"
 
 #include <math.h>
@@ -10,8 +10,8 @@ Ship::Ship(std::string name) : Object(name)
     Init();
 
     // Set up the sprite
-    Sprite* dsSprite = new Sprite(&oamMain, SpriteSize_64x64, SpriteColorFormat_256Color, 64, 64, 1, dsTiles);
-    this -> AddAttribute(dsSprite);
+    Sprite* shipSprite = new Sprite(&oamMain, SpriteSize_64x64, SpriteColorFormat_256Color, 64, 64, 1, shipSpriteTiles);
+    this -> AddAttribute(shipSprite);
 }
 
 void Ship::Update()
